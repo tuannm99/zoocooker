@@ -27,6 +27,9 @@ crates/
   storage/     in-memory tree and apply(Command)
 docs/
   implementation-guide.md
+  phase-index.md
+  testing-strategy.md
+  phases/
 proto/
   coordination.proto
 ```
@@ -34,6 +37,7 @@ proto/
 ## Suggested Build Order
 
 Read [docs/implementation-guide.md](docs/implementation-guide.md) and implement top to bottom.
+For the longer phase-by-phase notes, use [docs/phase-index.md](docs/phase-index.md).
 
 The intended order is:
 
