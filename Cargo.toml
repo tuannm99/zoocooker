@@ -1,0 +1,28 @@
+[workspace]
+members = [
+    "crates/client",
+    "crates/consensus",
+    "crates/protocol",
+    "crates/server",
+    "crates/storage",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+license = "MIT"
+version = "0.1.0"
+authors = ["Nguyen Minh Tuan"]
+
+[workspace.dependencies]
+async-trait = "0.1"
+bytes = "1"
+prost = "0.14"
+serde = { version = "1", features = ["derive"] }
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time"] }
+tokio-stream = "0.1"
+tonic = "0.14"
+tonic-prost = "0.14"
+tracing = "0.1"
+uuid = { version = "1", features = ["serde", "v4"] }

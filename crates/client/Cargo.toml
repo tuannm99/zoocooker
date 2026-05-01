@@ -1,0 +1,10 @@
+[package]
+name = "zoocooker-client"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+tokio.workspace = true
+tonic.workspace = true
+zoocooker-protocol = { path = "../protocol" }

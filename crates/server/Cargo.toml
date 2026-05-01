@@ -1,0 +1,16 @@
+[package]
+name = "zoocooker-server"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+async-trait.workspace = true
+tokio.workspace = true
+tokio-stream.workspace = true
+tonic.workspace = true
+tracing.workspace = true
+uuid.workspace = true
+zoocooker-consensus = { path = "../consensus" }
+zoocooker-protocol = { path = "../protocol" }
+zoocooker-storage = { path = "../storage" }

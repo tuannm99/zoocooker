@@ -1,0 +1,10 @@
+[package]
+name = "zoocooker-storage"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+zoocooker-protocol = { path = "../protocol" }

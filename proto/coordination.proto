@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package zoocooker.v1;
+
+service Coordination {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Set(SetRequest) returns (SetResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+  rpc Exists(ExistsRequest) returns (ExistsResponse);
+  rpc Watch(WatchRequest) returns (stream WatchEvent);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+message CreateRequest {
+  string path = 1;
+  bytes data = 2;
+  bool ephemeral = 3;
+  bool sequential = 4;
+  optional string session_id = 5;
+}
+
+message CreateResponse {
+  string path = 1;
+}
+
+message GetRequest {
+  string path = 1;
+}
+
+message GetResponse {
+  bytes data = 1;
+  int32 version = 2;
+}
+
+message SetRequest {
+  string path = 1;
+  bytes data = 2;
+  optional int32 expected_version = 3;
+}
+
+message SetResponse {
+  int32 version = 1;
+}
+
+message DeleteRequest {
+  string path = 1;
+  optional int32 expected_version = 2;
+}
+
+message DeleteResponse {}
+
+message ExistsRequest {
+  string path = 1;
+}
+
+message ExistsResponse {
+  bool exists = 1;
+  optional int32 version = 2;
+}
+
+message WatchRequest {
+  string path = 1;
+  WatchKind kind = 2;
+}
+
+message WatchEvent {
+  string path = 1;
+  WatchEventKind kind = 2;
+}
+
+message HeartbeatRequest {
+  optional string session_id = 1;
+}
+
+message HeartbeatResponse {
+  string session_id = 1;
+  uint64 ttl_ms = 2;
+}
+
+enum WatchKind {
+  WATCH_KIND_UNSPECIFIED = 0;
+  WATCH_KIND_DATA = 1;
+  WATCH_KIND_CHILDREN = 2;
+}
+
+enum WatchEventKind {
+  WATCH_EVENT_KIND_UNSPECIFIED = 0;
+  WATCH_EVENT_KIND_NODE_CREATED = 1;
+  WATCH_EVENT_KIND_NODE_DELETED = 2;
+  WATCH_EVENT_KIND_NODE_DATA_CHANGED = 3;
+  WATCH_EVENT_KIND_NODE_CHILDREN_CHANGED = 4;
+}

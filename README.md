@@ -1,0 +1,64 @@
+# zoocooker
+
+Mini ZooKeeper-inspired coordination service in Rust.
+
+This repository is intentionally scaffolded around a staged implementation plan:
+
+1. Single-node state machine
+2. Session and ephemeral nodes
+3. Persistence with WAL and snapshots
+4. Cluster replication through Raft
+5. Production hardening
+
+The core rule for the design is simple:
+
+- All writes become `Command`s.
+- Only the state machine mutates the tree.
+- Network, watches, WAL, and consensus stay outside the state machine.
+
+## Workspace Layout
+
+```text
+crates/
+  client/      SDK and client helpers
+  consensus/   command replication abstraction
+  protocol/    domain types and gRPC/proto layer
+  server/      gRPC server, watch fan-out, session cleaner
+  storage/     in-memory tree and apply(Command)
+docs/
+  implementation-guide.md
+proto/
+  coordination.proto
+```
+
+## Suggested Build Order
+
+Read [docs/implementation-guide.md](docs/implementation-guide.md) and implement top to bottom.
+
+The intended order is:
+
+1. Finish `protocol` domain types if you want richer metadata.
+2. Implement path parsing and tree mutation in `storage`.
+3. Expose tree operations through `server`.
+4. Add watch dispatching in the server layer.
+5. Add session tracking and ephemeral cleanup.
+6. Add WAL/snapshot support.
+7. Swap `SingleNodeConsensus` with a Raft-backed implementation.
+
+## Current Status
+
+The repository currently contains:
+
+- A Rust workspace
+- A protobuf definition for the MVP API
+- Traits and stub modules for the main components
+- An implementation guide with checkpoints and notes
+
+What it does not yet contain:
+
+- Working storage logic
+- Running gRPC server
+- Watch streams
+- Session handling
+- Persistence
+- Raft

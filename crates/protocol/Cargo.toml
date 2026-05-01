@@ -1,0 +1,18 @@
+[package]
+name = "zoocooker-protocol"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+bytes.workspace = true
+prost.workspace = true
+serde.workspace = true
+thiserror.workspace = true
+tonic.workspace = true
+tonic-prost.workspace = true
+uuid.workspace = true
+
+[build-dependencies]
+protoc-bin-vendored = "3"
+tonic-prost-build = "0.14"
