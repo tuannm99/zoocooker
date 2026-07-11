@@ -112,6 +112,23 @@ Be careful:
 - committed writes survive leader failover
 - lagging nodes catch up through log or snapshot
 
+## Implementation Status
+
+Current implemented slice:
+
+1. `Consensus` now exposes leadership metadata independently from server internals.
+2. Single-node and persistent single-node modes report themselves as leader.
+3. `ReplicatedClusterConsensus` provides an in-memory replicated cluster harness.
+4. Followers reject write/read paths with a `NotLeader` error carrying leader metadata.
+5. Leader writes are appended to the cluster log and applied to all node stores as committed commands.
+
+Known remaining work before this is a real Raft phase:
+
+- Replace the in-memory cluster harness with OpenRaft or another real Raft implementation.
+- Add raft RPC transport, durable raft log storage, and membership management.
+- Add failure tests for leader crash, follower crash, and partitions.
+- Wire redirect metadata into the external proto API instead of only gRPC status text.
+
 ## Reference Material
 
 For Raft theory:

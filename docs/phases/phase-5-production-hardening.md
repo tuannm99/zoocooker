@@ -94,6 +94,24 @@ Even if you do not fully automate load tests, keep a documented manual drill pro
 - major limits are enforced
 - metrics and logs are sufficient to debug basic incidents
 
+## Implementation Status
+
+Current implemented slice:
+
+1. `ServerConfig` centralizes session TTL, watch channel capacity, and max watch registrations.
+2. Watch registration backpressure is enforced with a predictable `ResourceExhausted` error.
+3. Server metrics track reads, writes, watch registrations, watch rejections, and session cleanups.
+4. Follower writes surface a stable failed-precondition response with leader hint text.
+5. Session expiration can be run as a background task or deterministic test helper.
+
+Known remaining hardening work:
+
+- Add real auth credentials to the proto/API before ACL enforcement is meaningful.
+- Export metrics over an HTTP or gRPC health/metrics endpoint.
+- Add request size limits at the tonic transport boundary.
+- Add client-side redirect parsing and retry policy once leader addresses are first-class API fields.
+- Add repeated local drills for restart, watch bursts, slow clients, and cluster catch-up.
+
 ## Reference Material
 
 For ZooKeeper operational semantics and documentation index:

@@ -64,6 +64,17 @@ mod tests {
     }
 
     #[test]
+    fn rejects_empty_segments() {
+        assert!(normalize("//a").is_err());
+        assert!(normalize("/a//b").is_err());
+    }
+
+    #[test]
+    fn rejects_relative_paths() {
+        assert!(normalize("a/b").is_err());
+    }
+
+    #[test]
     fn computes_parent_and_leaf() {
         assert_eq!(parent_of("/a/b").unwrap(), "/a");
         assert_eq!(leaf_name("/a/b").unwrap(), "b");

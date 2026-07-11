@@ -14,3 +14,7 @@ uuid.workspace = true
 zoocooker-consensus = { path = "../consensus" }
 zoocooker-protocol = { path = "../protocol" }
 zoocooker-storage = { path = "../storage" }
+
+[dev-dependencies]
+tempfile.workspace = true
+zoocooker-client = { path = "../client" }

@@ -9,3 +9,6 @@ async-trait.workspace = true
 tokio.workspace = true
 zoocooker-protocol = { path = "../protocol" }
 zoocooker-storage = { path = "../storage" }
+
+[dev-dependencies]
+tempfile.workspace = true

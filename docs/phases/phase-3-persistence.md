@@ -105,6 +105,24 @@ Document behavior for:
 
 If behavior is not ideal yet, document the limitation explicitly.
 
+## Implementation Plan
+
+Current next steps:
+
+1. Add a small length-prefixed JSON WAL that stores committed `Command` records.
+2. Append and fsync a command before applying it in the persistent single-node consensus path.
+3. Replay complete WAL records into an empty `TreeStore`; ignore a trailing partial record.
+4. Add a versioned JSON snapshot for `TreeStore` state, including nodes, stats, zxid, and sequence counters.
+5. Restore from snapshot first, then replay WAL records for the first persistence milestone.
+
+Initial failure behavior:
+
+- Crash after WAL append before response may replay an already committed command on restart.
+- Crash after response before snapshot is recovered from WAL.
+- Truncated trailing WAL records are ignored.
+- Corrupt complete WAL records are treated as fatal replay errors.
+- Unreadable snapshots are treated as fatal restore errors.
+
 ## Exit Criteria
 
 - restart recovery passes repeatedly

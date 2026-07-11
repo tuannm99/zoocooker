@@ -55,14 +55,40 @@ The repository currently contains:
 
 - A Rust workspace
 - A protobuf definition for the MVP API
-- Traits and stub modules for the main components
+- Working single-node storage CRUD
+- gRPC service and thin client helpers
+- One-shot data and child watches
+- Session heartbeat and ephemeral cleanup
+- WAL replay and snapshot primitives
+- A runnable `zoocooker-server` binary
+- An in-memory replicated cluster harness for consensus-boundary tests
 - An implementation guide with checkpoints and notes
 
 What it does not yet contain:
 
-- Working storage logic
-- Running gRPC server
-- Watch streams
-- Session handling
-- Persistence
-- Raft
+- A production OpenRaft-backed networked cluster
+- Real auth/ACL enforcement
+- External metrics/health endpoint export
+
+## Running Locally
+
+In-memory single-node server:
+
+```sh
+cargo run -p zoocooker-server --bin zoocooker-server -- --addr 127.0.0.1:50051
+```
+
+Persistent single-node server:
+
+```sh
+cargo run -p zoocooker-server --bin zoocooker-server -- \
+  --addr 127.0.0.1:50051 \
+  --wal ./data/commands.wal \
+  --snapshot ./data/snapshot.json
+```
+
+Useful options:
+
+- `--session-ttl-ms <ms>`
+- `--watch-channel-capacity <n>`
+- `--max-watches <n>`

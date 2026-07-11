@@ -107,6 +107,16 @@ Reference:
 - ephemeral cleanup reuses the same mutation path as normal deletes
 - tests are stable under paused time
 
+## Implementation Plan
+
+Current next steps:
+
+1. Track ephemeral paths in `SessionManager` when an ephemeral create succeeds.
+2. Expose deterministic expiration helpers that accept an explicit timestamp for unit tests.
+3. Generate normal `Delete` commands for expired session paths, sorted deepest path first.
+4. Dispatch cleanup watch events through the existing one-shot watch registry.
+5. Keep background scanning as a thin wrapper over the deterministic cleanup helper.
+
 ## Reference Material
 
 For semantics:

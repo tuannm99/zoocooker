@@ -16,6 +16,14 @@ pub enum ZkError {
     BadVersion { expected: i32, actual: i32 },
     #[error("ephemeral nodes cannot have children")]
     EphemeralParent,
+    #[error("ephemeral node requires a valid session")]
+    InvalidSession,
+    #[error("persistence error: {0}")]
+    Persistence(String),
+    #[error("not leader; leader is {leader_id:?}")]
+    NotLeader { leader_id: Option<String> },
+    #[error("resource exhausted: {0}")]
+    ResourceExhausted(String),
     #[error("unimplemented: {0}")]
     Unimplemented(&'static str),
 }
